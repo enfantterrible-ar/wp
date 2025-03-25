@@ -1,0 +1,9 @@
+includes:
+	- phpstan/default.neon
+
+parameters:
+	paths:
+		- themes/10up-theme
+		- themes/10up-block-theme
+		- mu-plugins/enfantterrible-plugin
+		- mu-plugins/enfantterrible-plugin-loader.php

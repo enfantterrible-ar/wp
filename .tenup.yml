@@ -1,0 +1,18 @@
+project_name: "enfantterrible"
+environments:
+  production:
+    branch: "trunk"
+    deploy_type: "rsync"
+    deploy_from: "./"
+    url: "https://example.com"
+    deploy_to: "user@1.1.1.1/path/to/wordpress/"
+    deploy_to_subdir: "wp-content/"
+    wordpress_version: "6.7.2"
+  staging:
+    branch: "staging"
+    deploy_type: "rsync"
+    deploy_from: "./"
+    url: "https://staging.example.com"
+    deploy_to: "user@1.1.1.1/path/to/wordpress/"
+    deploy_to_subdir: "wp-content/"
+    wordpress_version: "6.7.2"

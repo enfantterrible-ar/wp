@@ -1,0 +1,58 @@
+node_modules
+bower_components
+release
+vendor
+phpunit.xml
+.idea
+uploads
+upgrade
+cache
+plugins
+aiowps_backups
+ewww
+languages
+smush-webp
+wp-staging-sites
+wpvivid_staging
+wpvivid_uploads
+wpvividbackups
+/index.php
+
+# Ignore everything in the mu-plugins folder
+mu-plugins/*
+# Except the specific directory or file
+!mu-plugins/enfantterrible-plugin/
+!mu-plugins/10up-plugin-loader.php
+
+# Ignore everything in the mu-plugins folder
+themes/*
+# Except the specific directory or file
+!themes/enfantterrible-block-theme/
+
+
+# Project Files
+dist
+backstop_data
+
+# Editors
+*.esproj
+*.tmproj
+*.tmproject
+tmtags
+.*.sw[a-z]
+*.un~
+Session.vim
+*.swp
+.vscode/launch.json
+tasks.json
+
+# Mac OSX
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+/debug.log
