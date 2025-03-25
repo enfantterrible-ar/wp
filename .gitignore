@@ -29,6 +29,8 @@ themes/*
 # Except the specific directory or file
 !themes/enfantterrible-block-theme/
 
+# Ignore Turborepo cache
+.turbo/
 
 # Project Files
 dist

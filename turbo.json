@@ -1,0 +1,24 @@
+{
+	"tasks": {
+	  "build": {
+		"dependsOn": ["^build"],
+		"outputs": [
+		  "themes/enfantterrible-block-theme/dist/**",
+		  "mu-plugins/enfantterrible-plugin/dist/**"
+		]
+	  },
+	  "start": {
+		"dependsOn": ["^build"],
+		"persistent": true,
+		"cache": false
+	  },
+	  "test": {
+		"dependsOn": ["build"],
+		"outputs": []
+	  },
+	  "lint": {
+		"outputs": []
+	  }
+	}
+  }
+  
