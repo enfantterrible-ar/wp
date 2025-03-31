@@ -3,6 +3,7 @@ name: User Story
 description: Capture specific user needs with acceptance criteria
 title: "[STORY]: "
 labels: ["user-story"]
+type: user-story
 body:
   - type: markdown
     attributes:
@@ -19,16 +20,6 @@ body:
       placeholder: |
         - [ ] Criteria 1 (e.g., docs/AUDIT.md created)
         - [ ] Criteria 2
-  - type: textarea
-    attributes:
-      label: Linked Tasks
-      description: "Related task issues (format: '- #123')"
-      placeholder: "- #task-issue"
-  - type: textarea
-    attributes:
-      label: Parent Epic
-      description: "Link to parent epic (format: #123)"
-      placeholder: "#epic-issue"
   - type: textarea
     attributes:
       label: Documentation Impact

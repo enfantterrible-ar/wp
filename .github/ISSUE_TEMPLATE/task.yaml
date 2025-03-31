@@ -3,6 +3,7 @@ name: Task
 description: Concrete technical work item
 title: "[TASK]: "
 labels: ["task"]
+type: task
 body:
   - type: markdown
     attributes:
@@ -19,11 +20,6 @@ body:
       placeholder: |
         - [ ] Step 1 (e.g., Create theme.json)
         - [ ] Step 2
-  - type: textarea
-    attributes:
-      label: Parent Story
-      description: "Link to user story (format: #123)"
-      placeholder: "#story-issue"
   - type: textarea
     attributes:
       label: Documentation
