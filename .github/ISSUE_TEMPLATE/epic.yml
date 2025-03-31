@@ -3,7 +3,6 @@ name: Epic
 description: Track large initiatives spanning multiple user stories
 title: "[EPIC]: "
 labels: ["epic"]
-assignees: ""
 body:
   - type: markdown
     attributes:

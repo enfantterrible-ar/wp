@@ -3,7 +3,6 @@ name: User Story
 description: Capture specific user needs with acceptance criteria
 title: "[STORY]: "
 labels: ["user-story"]
-assignees: ""
 body:
   - type: markdown
     attributes:
