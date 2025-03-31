@@ -1,0 +1,25 @@
+---
+name: Epic
+description: Track large initiatives spanning multiple user stories
+title: "[EPIC]: "
+labels: ["epic"]
+assignees: ""
+body:
+  - type: markdown
+    attributes:
+      value: "# Epic"
+  - type: textarea
+    attributes:
+      label: Objective
+      description: High-level goal of this epic
+      placeholder: "What strategic objective does this epic serve?"
+  - type: textarea
+    attributes:
+      label: Linked User Stories
+      description: List user stories (format: '- #123') 
+      placeholder: "- #issue-number"
+  - type: textarea
+    attributes:
+      label: Documentation Links
+      description: Relevant documentation files (e.g., docs/INFRA.md)
+      placeholder: "- docs/FILE.md"

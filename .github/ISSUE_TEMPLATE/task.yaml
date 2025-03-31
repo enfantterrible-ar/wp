@@ -1,0 +1,37 @@
+---
+name: Task
+description: Concrete technical work item
+title: "[TASK]: "
+labels: ["task"]
+assignees: ""
+body:
+  - type: markdown
+    attributes:
+      value: "# Task"
+  - type: textarea
+    attributes:
+      label: Description
+      description: Clear technical description of work
+      placeholder: "What needs to be done technically?"
+  - type: textarea
+    attributes:
+      label: Implementation Steps
+      description: "Technical checklist (Markdown supported)"
+      placeholder: |
+        - [ ] Step 1 (e.g., Create theme.json)
+        - [ ] Step 2
+  - type: textarea
+    attributes:
+      label: Parent Story
+      description: "Link to user story (format: #123)"
+      placeholder: "#story-issue"
+  - type: textarea
+    attributes:
+      label: Documentation
+      description: "Files to update/create (e.g., docs/THEME.md)"
+      placeholder: "- docs/FILE.md"
+  - type: textarea
+    attributes:
+      label: Technical Notes
+      description: "Code references, dependencies, etc."
+      placeholder: "e.g., Relies on TurboRepo configuration from #456"

@@ -1,0 +1,37 @@
+---
+name: User Story
+description: Capture specific user needs with acceptance criteria
+title: "[STORY]: "
+labels: ["user-story"]
+assignees: ""
+body:
+  - type: markdown
+    attributes:
+      value: "# User Story"
+  - type: textarea
+    attributes:
+      label: Story Statement
+      description: Use standard user story format
+      placeholder: "As a [role], I want [goal] so that [reason]"
+  - type: textarea
+    attributes:
+      label: Acceptance Criteria
+      description: "Mandatory completion checklist (Markdown supported)"
+      placeholder: |
+        - [ ] Criteria 1 (e.g., docs/AUDIT.md created)
+        - [ ] Criteria 2
+  - type: textarea
+    attributes:
+      label: Linked Tasks
+      description: "Related task issues (format: '- #123')"
+      placeholder: "- #task-issue"
+  - type: textarea
+    attributes:
+      label: Parent Epic
+      description: "Link to parent epic (format: #123)"
+      placeholder: "#epic-issue"
+  - type: textarea
+    attributes:
+      label: Documentation Impact
+      description: "Which docs need updating? (e.g., docs/INFRA.md)"
+      placeholder: "- docs/FILE.md"
