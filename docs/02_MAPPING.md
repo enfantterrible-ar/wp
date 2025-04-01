@@ -6,6 +6,8 @@
 
 ## Discovery
 
+Audit the current system to understand the existing state. This involves inventorying templates, plugins, content types, and dependencies, plus prioritizing which components to migrate, replace, or deprecate.
+
 1. **As a developer**, I want to audit the **current state of the system** to know where I am and what I would be riding.
 
 	- **Acceptance Criteria:**
@@ -25,6 +27,8 @@
 
 ## **Infra**
 	
+Build a scalable development infrastructure by setting up a monorepo (with TurboRepo optimizations) and automated CI/CD pipelines. This ensures that the codebase is efficiently managed and deployments are streamlined.
+
 1. **As a developer**, I want to ensure that the **monorepo structure** supports our development workflow and scalability, including an optimized configuration using TurboRepo, so that our build and deployment processes are efficient.
 
 	- **Acceptance Criteria:**
@@ -59,6 +63,8 @@
 		- Monitor and iterate on the CI/CD setup based on feedback and issues.
 
 ## **Migration**
+
+Refactor the website by converting Oxygen Builder templates into FSE block templates and migrating essential plugins and custom functionalities into the monorepo. This epic also aims to deliver a consistent editing experience in Gutenberg.
 
 1. **As a developer**, I want to **convert the current Oxygen Builder templates into FSE block templates** so that our site can be managed natively through Gutenberg.
 
