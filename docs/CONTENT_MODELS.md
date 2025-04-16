@@ -1,7 +1,7 @@
 # Content Models
 
 **Owner**: Martín García  
-**Last Updated**: 01/04/2025  
+**Last Updated**: 11/04/2025  
 **URL**: `https://github.com/enfantterrible-ar/wp/docs/CONTENT_MODELS.md`  
 
 ---

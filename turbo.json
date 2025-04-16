@@ -3,10 +3,9 @@
 	  "build": {
 		"dependsOn": ["^build"],
 		"outputs": [
-		  "themes/enfantterrible-block-theme/dist/**",
-		  "mu-plugins/enfantterrible-plugin/dist/**"
+			"dist/**"
 		]
-	  },
+	},
 	  "start": {
 		"dependsOn": ["^build"],
 		"persistent": true,
@@ -16,7 +15,13 @@
 		"dependsOn": ["build"],
 		"outputs": []
 	  },
-	  "lint": {
+	  "lint-js": {
+		"outputs": []
+	  },
+	  "lint-style": {
+		"outputs": []
+	  },
+	  "format-js": {
 		"outputs": []
 	  }
 	}
