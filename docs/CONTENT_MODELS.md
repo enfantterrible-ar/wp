@@ -631,6 +631,78 @@ AND meta_value != '%5B%5D';
 
 ---
 
+## Artículos Invitados `articulos-invitados`
+
+### Overview
+
+Custom post type.
+This post type is used for guest articles,
+mostly from third party link building strategies.
+
+It is basically a regular `post` post type.
+
+### Metadata
+
+This post type metadata inherits a custom field from `post`,
+which is `notas_bajada`.
+
+> [!note]
+> `notas_bajada` custom field should be migrated to a more
+> semantic approach. 
+
+<details>
+<summary>
+	<b>
+		SQL query
+	</b>
+</summary>
+
+```sql
+SELECT DISTINCT meta_key
+FROM wp_postmeta
+WHERE post_id IN (
+    SELECT ID FROM wp_posts WHERE post_type = 'articulos-invitados'
+)
+AND meta_key NOT LIKE '_oembed_%'
+AND meta_key NOT LIKE '_ct_%'
+AND meta_key NOT LIKE '%oxygen%'
+AND meta_key NOT LIKE '_wp%'
+AND meta_key NOT LIKE '%cmplz%'
+AND meta_key NOT LIKE '%rank_math%'
+AND meta_key NOT LIKE '%ocean%'
+AND meta_key NOT LIKE '%elementor%'
+AND meta_key NOT LIKE '%yoast%'
+AND meta_key NOT LIKE '%sws%'
+AND meta_key NOT LIKE '%lyte%'
+AND meta_key NOT LIKE '%vcv%'
+AND meta_key NOT LIKE '%swift%'
+AND meta_key NOT LIKE '%enclos%'
+AND meta_key NOT LIKE '%_eos_%'
+AND meta_key NOT LIKE '%_dp_%'
+AND meta_key NOT LIKE '%ping%'
+AND meta_key NOT IN (
+    'post_grid_post_settings',
+    '_advads_ad_settings',
+    '_edit_last',
+    '_thumbnail_id',
+    '_cff_oembed_done_checking',
+    '_edit_lock',
+    'xyz_fbap',
+    'footnotes',
+    '_mi_skip_tracking'
+)
+AND meta_value IS NOT NULL
+AND meta_value != ''
+AND meta_value != '%5B%5D';
+```
+</details>
+
+| meta_key                | source       |
+|-------------------------|--------------|
+| notas_bajada            | Lazy Blocks  |
+
+---
+
 ## Table view
 
 | post_type | meta_key                          | source       |
@@ -737,3 +809,4 @@ AND meta_value != '%5B%5D';
 | dossiers | dossier_autorxs         | Lazy Blocks  |
 | dossiers | dossier_es_entrevista   | Lazy Blocks  |
 | dossiers | dossier_archivo_imagen  | Lazy Blocks  |
+| articulos-invitados | notas_bajada            | Lazy Blocks  |
