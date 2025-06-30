@@ -15,5 +15,10 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  }
+  },
+    "phpsab.executablePathCS": "./vendor/bin/phpcs",
+    "phpsab.executablePathCBF": "./vendor/bin/phpcbf",
+    "phpsab.fixerEnable": true,
+    "phpsab.snifferEnable": true,
+   
 }

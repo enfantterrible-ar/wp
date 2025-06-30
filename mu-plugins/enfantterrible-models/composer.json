@@ -1,5 +1,5 @@
 {
-  "name": "10up/enfantterrible-plugin",
+  "name": "enfantterrible/enfantterrible-models",
   "description": "The starting point for all 10up WordPress plugins.",
   "license": "MIT",
   "type": "wordpress-plugin",
@@ -15,7 +15,7 @@
   },
   "autoload": {
     "psr-4": {
-      "enfantterriblePlugin\\": "src/"
+      "EnfantTerrible\\Models\\": "src/"
     }
   }
 }

@@ -2,10 +2,10 @@
 /**
  * Assets module.
  *
- * @package enfantterriblePlugin
+ * @package EnfantTerrible\Models
  */
 
-namespace enfantterriblePlugin;
+namespace EnfantTerrible\Models;
 
 use TenupFramework\Assets\GetAssetInfo;
 use TenupFramework\Module;
@@ -14,7 +14,7 @@ use TenupFramework\ModuleInterface;
 /**
  * Assets module.
  *
- * @package enfantterriblePlugin
+ * @package EnfantTerrible\Models
  */
 class Assets implements ModuleInterface {
 
@@ -37,8 +37,8 @@ class Assets implements ModuleInterface {
 	 */
 	public function register() {
 		$this->setup_asset_vars(
-			dist_path: ENFANTTERRIBLE_PLUGIN_PATH . 'dist/',
-			fallback_version: ENFANTTERRIBLE_PLUGIN_VERSION
+			dist_path: ENFANTTERRIBLE_MODELS_PATH . 'dist/',
+			fallback_version: ENFANTTERRIBLE_MODELS_VERSION
 		);
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts' ] );
@@ -52,8 +52,8 @@ class Assets implements ModuleInterface {
 	 */
 	public function admin_scripts() {
 		wp_enqueue_script(
-			'enfantterrible_plugin_admin',
-			ENFANTTERRIBLE_PLUGIN_URL . 'dist/js/admin.js',
+			'enfantterrible_models_admin',
+			ENFANTTERRIBLE_MODELS_URL . 'dist/js/admin.js',
 			$this->get_asset_info( 'admin', 'dependencies' ),
 			$this->get_asset_info( 'admin', 'version' ),
 			true
@@ -67,8 +67,8 @@ class Assets implements ModuleInterface {
 	 */
 	public function admin_styles() {
 		wp_enqueue_style(
-			'enfantterrible_plugin_admin',
-			ENFANTTERRIBLE_PLUGIN_URL . 'dist/css/admin-style.css',
+			'enfantterrible_models_admin',
+			ENFANTTERRIBLE_MODELS_URL . 'dist/css/admin-style.css',
 			[],
 			$this->get_asset_info( 'admin', 'version' ),
 		);

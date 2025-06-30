@@ -23,7 +23,7 @@ plugins/*
 # Ignore everything in the mu-plugins folder
 mu-plugins/*
 # Except the specific directory or file
-!mu-plugins/enfantterrible-plugin/
+!mu-plugins/enfantterrible-models/
 !mu-plugins/10up-plugin-loader.php
 
 # Ignore everything in the mu-plugins folder

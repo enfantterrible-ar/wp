@@ -9,7 +9,7 @@
   },
   "workspaces": [
     "themes/enfantterrible-block-theme",
-    "mu-plugins/enfantterrible-plugin"
+    "mu-plugins/enfantterrible-models"
   ],
   "scripts": {
     "prepare": "TEN=\"$(pwd)\"; UP=\"$(git rev-parse --show-toplevel)\"; TENUP=\"${TEN#\"$UP\"}\"; cd \"$(git rev-parse --show-toplevel)\"; husky .\"${TENUP}\"/.husky",

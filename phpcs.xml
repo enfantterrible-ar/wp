@@ -21,7 +21,7 @@
 
 	<!-- Ignore filecomment for the plugin loader -->
 	<rule ref="Squiz.Commenting.FileComment.Missing">
-		<exclude-pattern>./mu-plugins/enfantterrible-plugin-loader.php</exclude-pattern>
+		<exclude-pattern>./mu-plugins/enfantterrible-models-loader.php</exclude-pattern>
 	</rule>
 
 	<arg value="sp"/> <!-- Show sniff and progress -->

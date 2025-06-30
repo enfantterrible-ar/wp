@@ -1,5 +1,5 @@
 {
-  "name": "enfantterrible-plugin",
+  "name": "enfantterrible-models",
   "version": "1.0.0",
   "scripts": {
     "start": "npm run watch",

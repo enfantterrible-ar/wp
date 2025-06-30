@@ -26,7 +26,7 @@ jobs:
         run: composer validate --strict
 
       - name: Validate Plugin composer.json and composer.lock
-        run: composer validate --strict --working-dir=mu-plugins/enfantterrible-plugin
+        run: composer validate --strict --working-dir=mu-plugins/enfantterrible-models
 
       - name: Validate Theme composer.json and composer.lock
         run: composer validate --strict --working-dir=themes/10up-theme
@@ -44,7 +44,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Install Plugin dependencies
-        run: composer install --prefer-dist --no-progress --working-dir=mu-plugins/enfantterrible-plugin
+        run: composer install --prefer-dist --no-progress --working-dir=mu-plugins/enfantterrible-models
 
       - name: Install Theme dependencies
         run: composer install --prefer-dist --no-progress --working-dir=themes/10up-theme
