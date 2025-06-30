@@ -1,3 +1,4 @@
+# Ignore everything in the wp-content directory
 node_modules
 bower_components
 release
@@ -6,8 +7,6 @@ phpunit.xml
 .idea
 uploads
 upgrade
-cache
-plugins
 aiowps_backups
 ewww
 languages
@@ -17,6 +16,9 @@ wpvivid_staging
 wpvivid_uploads
 wpvividbackups
 /index.php
+
+# Ignore plugins
+plugins/*
 
 # Ignore everything in the mu-plugins folder
 mu-plugins/*
@@ -28,6 +30,11 @@ mu-plugins/*
 themes/*
 # Except the specific directory or file
 !themes/enfantterrible-block-theme/
+
+# Ignore cache
+/cache/
+*-cache*
+discoverer-cache*
 
 # Ignore Turborepo cache
 .turbo/
