@@ -1,22 +1,22 @@
 <?php
 /**
- * Assets module.
+ * Admin Assets module.
  *
- * @package EnfantTerrible\Models
+ * @package EnfantTerrible\Models\PostTypes\Fotoperiodismo\Admin
  */
 
-namespace EnfantTerrible\Models;
+namespace EnfantTerrible\Models\PostTypes\Fotoperiodismo\Admin;
 
 use TenupFramework\Assets\GetAssetInfo;
 use TenupFramework\Module;
 use TenupFramework\ModuleInterface;
 
 /**
- * Assets module.
+ * Admin Assets module.
  *
- * @package EnfantTerrible\Models
+ * @package EnfantTerrible\Models\PostTypes\Fotoperiodismo\Admin
  */
-class Assets implements ModuleInterface {
+class AdminAssets implements ModuleInterface {
 
 	use Module;
 	use GetAssetInfo;
@@ -27,7 +27,7 @@ class Assets implements ModuleInterface {
 	 * @return bool
 	 */
 	public function can_register() {
-		return true;
+		return false;
 	}
 
 	/**

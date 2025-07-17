@@ -19,15 +19,13 @@
     "jest-environment-jsdom": "^29.7.0"
   },
   "dependencies": {
+    "@wordpress/dom-ready": "^4.26.0",
+    "@wordpress/element": "^6.26.0",
     "prop-types": "^15.7.2"
   },
   "10up-toolkit": {
-    "entry": {
-      "admin": "./assets/js/admin/admin.js"
-    },
-    "paths": {
-      "globalStylesDir": "../../themes/enfantterrible-block-theme/assets/css/globals/",
-      "globalMixinsDir": "../../themes/enfantterrible-block-theme/assets/css/globals/mixins/"
-    }
+    "useBlockAssets": true,
+    "useScriptModules": true,
+    "loadBlockSpecificStyles": true
   }
 }
