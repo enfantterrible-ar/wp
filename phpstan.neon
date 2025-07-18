@@ -3,7 +3,6 @@ includes:
 
 parameters:
 	paths:
-		- themes/10up-theme
-		- themes/10up-block-theme
+		- themes/enfantterrible-block-theme
 		- mu-plugins/enfantterrible-models
 		- mu-plugins/enfantterrible-models-loader.php
