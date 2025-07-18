@@ -70,3 +70,7 @@ Desktop.ini
 # Logs
 *.log
 *.log.*
+
+# Backups
+*.bak
+*.bk
