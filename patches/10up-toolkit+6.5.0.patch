@@ -1,0 +1,36 @@
+diff --git a/node_modules/10up-toolkit/config/webpack/entry.js b/node_modules/10up-toolkit/config/webpack/entry.js
+index b75cb99..1a42611 100644
+--- a/node_modules/10up-toolkit/config/webpack/entry.js
++++ b/node_modules/10up-toolkit/config/webpack/entry.js
+@@ -77,7 +77,30 @@ module.exports = ({
+ 						const entryName = filepath
+ 							.replace(extname(filepath), '')
+ 							.replace(blocksSourceDirectory, '')
+-							.replace(/\\/g, '/');
++							.replace(/\\/g, '/')
++							/** 
++							 * 
++							 * This patch is required to ensure that the entry name does not start with a slash.
++							 * 
++							 * 10up-toolkit scans the blocksDir for block.json files and uses the file path 
++							 * as the entry name, but it doesn't properly handle leading slashes.
++							 * This leads to entries like:
++							 * {
++							 *  "/my-block/index.js": "/path/to/my-block/index.js"
++							 * }
++							 * 
++							 * The issue compounds because in line 21/22, the filename is overridden to
++							 * `blocks/[name].js` which results in the emitted file being named
++							 * `blocks//my-block/index.js`.
++							 * 
++							 * I tried to fix this via plugins, but it constantly failed
++							 * because the entry name is used as buildFiles index in output.js.
++							 * There's probably a better way to do this, but I think the culprit comes from this.
++							 * 
++							 * This is a temporary fix until the toolkit is updated to handle this properly.
++							 *
++							*/
++							.replace(/^\//, ''); // remove leading slash
+ 
+ 						// Detects the proper file extension used in the defined source directory.
+ 						const [entryFilepath] = glob(
