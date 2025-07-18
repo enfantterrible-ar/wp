@@ -53,6 +53,7 @@ tmtags
 Session.vim
 *.swp
 .vscode/launch.json
+**/.vscode/launch.json
 tasks.json
 
 # Mac OSX
@@ -65,3 +66,7 @@ tasks.json
 Thumbs.db
 Desktop.ini
 /debug.log
+
+# Logs
+*.log
+*.log.*

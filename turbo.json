@@ -1,29 +1,29 @@
 {
-	"tasks": {
-	  "build": {
-		"dependsOn": ["^build"],
-		"outputs": [
-			"dist/**"
-		]
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "start": {
+      "dependsOn": ["^build"],
+      "persistent": true,
+      "cache": false
+    },
+	"clean-dist": {
+	  "outputs": []
 	},
-	  "start": {
-		"dependsOn": ["^build"],
-		"persistent": true,
-		"cache": false
-	  },
-	  "test": {
-		"dependsOn": ["build"],
-		"outputs": []
-	  },
-	  "lint-js": {
-		"outputs": []
-	  },
-	  "lint-style": {
-		"outputs": []
-	  },
-	  "format-js": {
-		"outputs": []
-	  }
-	}
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "lint-js": {
+      "outputs": []
+    },
+    "lint-style": {
+      "outputs": []
+    },
+    "format-js": {
+      "outputs": []
+    }
   }
-  
+}
