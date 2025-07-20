@@ -78,7 +78,6 @@ class Blocks implements ModuleInterface {
 			fallback_version: ENFANTTERRIBLE_MODELS_VERSION
 		);
 		add_action( 'init', [ $this, 'register_models_blocks' ] );
-		add_action( 'init', [ $this, 'enqueue_models_block_styles' ] );
 	}
 
 	/**
@@ -134,54 +133,5 @@ class Blocks implements ModuleInterface {
 			10,
 			2
 		);
-	}
-
-	/**
-	 * Enqueue block-specific styles and optional scripts.
-	 *
-	 * @return void
-	 */
-	public function enqueue_models_block_styles() {
-		$stylesheets = glob( $this->blocks_path . '**/*.css', GLOB_BRACE );
-
-		if ( empty( $stylesheets ) ) {
-			return;
-		}
-
-		foreach ( $stylesheets as $stylesheet_path ) {
-			$relative_path = str_replace( ENFANTTERRIBLE_MODELS_DIST_PATH, '', $stylesheet_path );
-			$relative_path = ltrim( $relative_path, '/' );
-			$block_type    = str_replace( '.css', '', $relative_path );
-
-			$handle = 'enfantterrible-models-' . sanitize_title( str_replace( '/', '-', $block_type ) );
-
-			wp_register_style(
-				$handle,
-				ENFANTTERRIBLE_MODELS_DIST_URL . $relative_path,
-				$this->get_asset_info( $block_type, 'dependencies' ),
-				$this->get_asset_info( $block_type, 'version' )
-			);
-
-			wp_enqueue_block_style(
-				$block_type,
-				[
-					'handle' => $handle,
-					'path'   => $stylesheet_path,
-				]
-			);
-
-			$script_path = ENFANTTERRIBLE_MODELS_DIST_PATH . $block_type . '.js';
-			$script_url  = ENFANTTERRIBLE_MODELS_DIST_URL . $block_type . '.js';
-
-			if ( file_exists( $script_path ) ) {
-				wp_enqueue_script(
-					$handle . '-js',
-					$script_url,
-					$this->get_asset_info( $block_type, 'dependencies' ),
-					$this->get_asset_info( $block_type, 'version' ),
-					true
-				);
-			}
-		}
 	}
 }
