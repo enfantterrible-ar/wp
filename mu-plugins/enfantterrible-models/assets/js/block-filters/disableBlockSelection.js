@@ -22,6 +22,7 @@ import { useEffect } from '@wordpress/element';
 const NON_SELECTABLE_BLOCKS = [
 	'enfantterrible-models/authors',
 	'enfantterrible-models/authors-item',
+	'enfantterrible-models/description',
 ];
 
 /**
