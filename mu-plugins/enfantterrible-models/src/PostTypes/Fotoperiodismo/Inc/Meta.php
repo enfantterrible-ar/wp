@@ -164,6 +164,7 @@ class Meta implements ModuleInterface {
 							'items' => [
 								'type'       => 'object',
 								'properties' => [
+									'id'   => [ 'type' => 'string' ],
 									'name' => [
 										'type'        => 'string',
 										'description' => 'The author name',
@@ -191,6 +192,7 @@ class Meta implements ModuleInterface {
 											return null;
 										}
 										return [
+											'id'   => isset( $author['id'] ) ? sanitize_text_field( $author['id'] ) : '',
 											'name' => isset( $author['name'] ) ? sanitize_text_field( $author['name'] ) : '',
 											'url'  => isset( $author['url'] ) ? esc_url_raw( $author['url'] ) : '',
 										];

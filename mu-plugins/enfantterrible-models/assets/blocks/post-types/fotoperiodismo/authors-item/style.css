@@ -1,0 +1,42 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-enfantterrible-models-authors-item {
+	display:flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--20);
+	padding: var(--wp--preset--spacing--20);
+  	border-left: 1px solid var(--wp--preset--color--cyan-bluish-gray);
+}
+
+.wp-block-enfantterrible-models-authors-item
+.wp-block-enfantterrible-models-authors-item--control-wrapper {
+	flex-grow: 1;
+}
+
+.wp-block-enfantterrible-models-authors-item--control-actions[aria-orientation="vertical"] {
+  	flex-direction: column;
+}
+
+.wp-block-enfantterrible-models-authors-item--control-actions[aria-orientation="horizontal"] {
+  	flex-direction: initial;
+}
+
+.wp-block-enfantterrible-models-authors-item
+.wp-block-enfantterrible-models-authors-item--control-wrapper
+.components-base-control:last-child > div {
+	margin-bottom: 0;
+}
+
+.wp-block-enfantterrible-models-authors-item.is-selected
+.block-editor-block-toolbar {
+  display: none;
+}
+
+.editor-styles-wrapper:has( .wp-block-enfantterrible-models-authors-item.is-selected ) ~ .components-popover.block-editor-block-popover {
+  display: none !important;
+}

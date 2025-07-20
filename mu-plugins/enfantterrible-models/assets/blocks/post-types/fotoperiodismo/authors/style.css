@@ -1,0 +1,32 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-enfantterrible-models-authors {
+  padding: var(--wp--preset--spacing--20);
+  border: 1px solid var(--wp--preset--color--cyan-bluish-gray);
+  display: flex;
+  flex-direction: column;
+  gap: var(--wp--preset--spacing--20);
+}
+
+.wp-block-enfantterrible-models-authors
+.wp-block-enfantterrible-models-authors-header {
+  border-bottom: 1px solid var(--wp--preset--color--cyan-bluish-gray);
+}
+
+.wp-block-enfantterrible-models-authors
+.wp-block-enfantterrible-models-authors-header p {
+  font-weight: bold;
+  margin: 0;
+  padding-bottom: var(--wp--preset--spacing--20);
+}
+
+.wp-block-enfantterrible-models-authors
+.wp-block-enfantterrible-models-authors-add-button {
+  width:100%;
+  justify-content: center;
+}

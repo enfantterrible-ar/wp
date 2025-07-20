@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "enfantterrible-models/authors",
+	"title": "Fotogalería - Autorxs",
+	"category": "text",
+	"description": "Autorxs de la fotogalería",
+	"attributes": {},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "enfantterrible-models",
+	"editorScript": "file:./index.js",
+	"style": "file:./style.css",
+	"render": "file:./markup.php"
+}
