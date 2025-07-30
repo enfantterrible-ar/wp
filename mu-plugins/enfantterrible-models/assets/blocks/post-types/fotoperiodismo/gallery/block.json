@@ -1,0 +1,22 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "enfantterrible-models/gallery",
+	"title": "Fotogalería - Galería",
+	"category": "text",
+	"description": "Galería de la fotogalería",
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "full"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": ["full"]
+	},
+	"textdomain": "enfantterrible-models",
+	"editorScript": "file:./index.js",
+	"style": "file:./style.css",
+	"render": "file:./markup.php"
+}

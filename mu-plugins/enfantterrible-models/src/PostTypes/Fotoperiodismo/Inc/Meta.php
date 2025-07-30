@@ -125,17 +125,182 @@ class Meta implements ModuleInterface {
 			$model_type,
 			[
 				'et_models_fotoperiodismo_images'     => [
-					'object_subtype' => $model_name,
-					'type'           => 'array',
-					'single'         => true,
-					'description'    => __( 'Array of image URLs.', 'enfantterrible-models' ),
-					'show_in_rest'   => [
+					'object_subtype'    => $model_name,
+					'type'              => 'object',
+					'single'            => true,
+					'description'       => __( 'Object of images.', 'enfantterrible-models' ),
+					'show_in_rest'      => [
 						'schema' => [
-							'type'  => 'array',
-							'items' => [ 'type' => 'string' ],
+							'type'       => 'object',
+							'properties' => [
+								'images'      => [
+									'type'        => 'array',
+									'description' => 'Array of image objects with display data',
+									'items'       => [
+										'type'       => 'object',
+										'properties' => [
+											'key'   => [
+												'type' => 'string',
+												'description' => 'Unique identifier for the image in the gallery (e.g., "img-1")',
+											],
+											'url'   => [
+												'type'   => 'string',
+												'format' => 'uri',
+												'description' => 'Full URL to the image file',
+											],
+											'alt'   => [
+												'type'    => 'string',
+												'description' => 'Alt text for the image',
+												'default' => '',
+											],
+											'title' => [
+												'type'    => 'string',
+												'description' => 'Title/caption for the image',
+												'default' => '',
+											],
+											'id'    => [
+												'type' => 'integer',
+												'description' => 'WordPress media attachment ID',
+											],
+											'size'  => [
+												'type' => 'object',
+												'properties' => [
+													'width'  => [
+														'type' => 'integer',
+													],
+													'height' => [
+														'type' => 'integer',
+													],
+												],
+											],
+										],
+										'required'   => [ 'id', 'url', 'key', 'size' ],
+									],
+									'default'     => [],
+								],
+								'layouts'     => [
+									'type'       => 'object',
+									'properties' => [
+										'lg'  => [
+											'type'  => 'array',
+											'items' => [
+												'type' => 'object',
+												'properties' => [
+													'i'    => [ 'type' => 'string' ],
+													'x'    => [ 'type' => 'integer' ],
+													'y'    => [ 'type' => 'integer' ],
+													'w'    => [ 'type' => 'integer' ],
+													'h'    => [ 'type' => 'integer' ],
+													'minW' => [ 'type' => 'integer' ],
+													'minH' => [ 'type' => 'integer' ],
+													'maxW' => [ 'type' => 'integer' ],
+													'maxH' => [ 'type' => 'integer' ],
+													'static' => [ 'type' => 'boolean' ],
+													'moved' => [ 'type' => 'boolean' ],
+												],
+											],
+										],
+										'md'  => [
+											'type'  => 'array',
+											'items' => [
+												'type' => 'object',
+												'properties' => [
+													'i'    => [ 'type' => 'string' ],
+													'x'    => [ 'type' => 'integer' ],
+													'y'    => [ 'type' => 'integer' ],
+													'w'    => [ 'type' => 'integer' ],
+													'h'    => [ 'type' => 'integer' ],
+													'minW' => [ 'type' => 'integer' ],
+													'minH' => [ 'type' => 'integer' ],
+													'maxW' => [ 'type' => 'integer' ],
+													'maxH' => [ 'type' => 'integer' ],
+													'static' => [ 'type' => 'boolean' ],
+													'moved' => [ 'type' => 'boolean' ],
+												],
+											],
+										],
+										'sm'  => [
+											'type'  => 'array',
+											'items' => [
+												'type' => 'object',
+												'properties' => [
+													'i'    => [ 'type' => 'string' ],
+													'x'    => [ 'type' => 'integer' ],
+													'y'    => [ 'type' => 'integer' ],
+													'w'    => [ 'type' => 'integer' ],
+													'h'    => [ 'type' => 'integer' ],
+													'minW' => [ 'type' => 'integer' ],
+													'minH' => [ 'type' => 'integer' ],
+													'maxW' => [ 'type' => 'integer' ],
+													'maxH' => [ 'type' => 'integer' ],
+													'static' => [ 'type' => 'boolean' ],
+													'moved' => [ 'type' => 'boolean' ],
+												],
+											],
+										],
+										'xs'  => [
+											'type'  => 'array',
+											'items' => [
+												'type' => 'object',
+												'properties' => [
+													'i'    => [ 'type' => 'string' ],
+													'x'    => [ 'type' => 'integer' ],
+													'y'    => [ 'type' => 'integer' ],
+													'w'    => [ 'type' => 'integer' ],
+													'h'    => [ 'type' => 'integer' ],
+													'minW' => [ 'type' => 'integer' ],
+													'minH' => [ 'type' => 'integer' ],
+													'maxW' => [ 'type' => 'integer' ],
+													'maxH' => [ 'type' => 'integer' ],
+													'static' => [ 'type' => 'boolean' ],
+													'moved' => [ 'type' => 'boolean' ],
+												],
+											],
+										],
+										'xxs' => [
+											'type'  => 'array',
+											'items' => [
+												'type' => 'object',
+												'properties' => [
+													'i'    => [ 'type' => 'string' ],
+													'x'    => [ 'type' => 'integer' ],
+													'y'    => [ 'type' => 'integer' ],
+													'w'    => [ 'type' => 'integer' ],
+													'h'    => [ 'type' => 'integer' ],
+													'minW' => [ 'type' => 'integer' ],
+													'minH' => [ 'type' => 'integer' ],
+													'maxW' => [ 'type' => 'integer' ],
+													'maxH' => [ 'type' => 'integer' ],
+													'static' => [ 'type' => 'boolean' ],
+													'moved' => [ 'type' => 'boolean' ],
+												],
+											],
+										],
+									],
+								],
+								'lastUpdated' => [
+									'type'        => [ 'integer', 'null' ],
+									'description' => 'Unix timestamp of last update',
+									'default'     => null,
+								],
+							],
+							'default'    => [
+								'images'      => [],
+								'layouts'     => [
+									'lg'  => [],
+									'md'  => [],
+									'sm'  => [],
+									'xs'  => [],
+									'xxs' => [],
+								],
+								'lastUpdated' => null,
+							],
 						],
 					],
-					'default'        => [],
+					'auth_callback'     => function () {
+						return current_user_can( 'edit_posts' );
+					},
+					'sanitize_callback' => [ $this, 'sanitize_gallery_data' ],
 				],
 				'et_models_fotoperiodismo_desc_short' => [
 					'object_subtype' => $model_name,
@@ -175,7 +340,7 @@ class Meta implements ModuleInterface {
 										'description' => 'The author link URL',
 									],
 								],
-								'required'   => [ 'name', 'url' ],
+								'required'   => [ 'id','name', 'url' ],
 							],
 						],
 					],
@@ -206,5 +371,104 @@ class Meta implements ModuleInterface {
 				],
 			]
 		);
+	}
+
+	/**
+	 * Sanitize gallery data before saving
+	 */
+	private function sanitize_gallery_data( $value ) {
+		if ( ! is_array( $value ) && ! is_object( $value ) ) {
+			return [
+				'images'      => [],
+				'layouts'     => (object) [],
+				'lastUpdated' => null,
+			];
+		}
+
+		$value = (array) $value;
+
+		// Ensure required keys exist
+		$sanitized = [
+			'images'      => isset( $value['images'] ) ? $this->sanitize_images_array( $value['images'] ) : [],
+			'layouts'     => isset( $value['layouts'] ) ? $this->sanitize_layouts_object( $value['layouts'] ) : (object) [],
+			'lastUpdated' => isset( $value['lastUpdated'] ) ? ( is_numeric( $value['lastUpdated'] ) ? intval( $value['lastUpdated'] ) : null ) : null,
+		];
+
+		return $sanitized;
+	}
+
+	/**
+	 * Sanitize images array
+	 */
+	private function sanitize_images_array( $images ) {
+		if ( ! is_array( $images ) ) {
+			return [];
+		}
+
+		$sanitized = [];
+		foreach ( $images as $image ) {
+			if ( ! is_array( $image ) && ! is_object( $image ) ) { continue;
+			}
+
+			$image       = (array) $image;
+			$sanitized[] = [
+				'key'   => sanitize_text_field( $image['key'] ?? '' ),
+				'url'   => esc_url_raw( $image['url'] ?? '' ),
+				'alt'   => sanitize_text_field( $image['alt'] ?? '' ),
+				'title' => sanitize_text_field( $image['title'] ?? '' ),
+				'id'    => absint( $image['id'] ?? 0 ), // Using absint for positive integers
+				'size'  => [
+					'width'  => absint( $image['size']['width'] ?? 0 ),
+					'height' => absint( $image['size']['height'] ?? 0 ),
+				],
+			];
+		}
+
+		return $sanitized;
+	}
+
+	/**
+	 * Sanitize layouts object
+	 */
+	public function sanitize_layouts_object( $layouts ) {
+		if ( ! is_array( $layouts ) && ! is_object( $layouts ) ) {
+			return (object) [];
+		}
+
+		$layouts   = (array) $layouts;
+		$sanitized = [];
+
+		foreach ( $layouts as $key => $layout_array ) {
+			// Ensure $layout_array is an array before iterating through it
+			if ( ! is_array( $layout_array ) ) {
+				continue;
+			}
+
+			$sanitized_layout_array = [];
+			foreach ( $layout_array as $layout_item ) {
+				if ( ! is_array( $layout_item ) && ! is_object( $layout_item ) ) {
+					continue;
+				}
+				$layout_item = (array) $layout_item;
+
+				$sanitized_layout_array[] = [
+					'i'      => sanitize_text_field( $layout_item['i'] ?? '' ),
+					'x'      => intval( $layout_item['x'] ?? 0 ), // X can be 0 or positive, no need for absint
+					'y'      => intval( $layout_item['y'] ?? 0 ), // Y can be 0 or positive, no need for absint
+					'w'      => absint( $layout_item['w'] ?? 1 ), // Width should be non-negative
+					'h'      => absint( $layout_item['h'] ?? 1 ), // Height should be non-negative
+					'minW'   => absint( $layout_item['minW'] ?? 2 ), // Min width should be non-negative
+					'minH'   => absint( $layout_item['minH'] ?? 2 ), // Min height should be non-negative
+					'maxW'   => absint( $layout_item['maxW'] ?? 99999 ), // Max width should be non-negative
+					'maxH'   => absint( $layout_item['maxH'] ?? 99999 ), // Max height should be non-negative
+					'static' => (bool) ( $layout_item['static'] ?? false ), // Cast to boolean
+					'moved'  => (bool) ( $layout_item['moved'] ?? false ),  // Cast to boolean
+				];
+			}
+			// Sanitize the key for the layout (e.g., 'lg', 'md')
+			$sanitized[ sanitize_key( $key ) ] = $sanitized_layout_array;
+		}
+
+		return (object) $sanitized;
 	}
 }
