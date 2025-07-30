@@ -48,6 +48,7 @@ class ThemeCore {
 	 */
 	public function theme_setup() {
 		add_theme_support( 'editor-styles' );
+		add_theme_support( 'align-wide' );
 		add_editor_style( '/dist/css/frontend.css' );
 		remove_theme_support( 'core-block-patterns' );
 	}
