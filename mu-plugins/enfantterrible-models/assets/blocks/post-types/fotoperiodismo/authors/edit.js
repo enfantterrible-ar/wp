@@ -1,6 +1,5 @@
 // authors.js
 
-import { __ } from '@wordpress/i18n';
 import {
 	useBlockProps,
 	useInnerBlocksProps,
@@ -53,7 +52,7 @@ export const BlockEdit = ({ clientId }) => {
 
 	/**
 	 * 1) HYDRATION EFFECT — Runs once on mount, if no inner blocks exist yet.
-	 *    Creates child blocks based on existing post meta.
+	 * Creates child blocks based on existing post meta.
 	 */
 	useEffect(() => {
 		if (hasHydrated.current) return;
@@ -80,7 +79,7 @@ export const BlockEdit = ({ clientId }) => {
 
 	/**
 	 * 2) SYNC EFFECT — Whenever children change, update the post meta.
-	 *    Only triggers after hydration has completed.
+	 * Only triggers after hydration has completed.
 	 */
 	useEffect(() => {
 		if (!hasHydrated.current) return;
@@ -111,7 +110,7 @@ export const BlockEdit = ({ clientId }) => {
 	return (
 		<div {...innerBlocksProps}>
 			<div className="wp-block-enfantterrible-models-authors-header">
-				<p>{__('Autorxs', 'enfantterrible-models')}</p>
+				<p>Autorxs</p>
 			</div>
 			{children}
 			<Inserter
@@ -122,7 +121,7 @@ export const BlockEdit = ({ clientId }) => {
 						className="wp-block-enfantterrible-models-authors-add-button"
 						variant="primary"
 					>
-						{__('+ Agregar autorxs', 'enfantterrible-models')}
+						+ Agregar autorxs
 					</Button>
 				)}
 			/>

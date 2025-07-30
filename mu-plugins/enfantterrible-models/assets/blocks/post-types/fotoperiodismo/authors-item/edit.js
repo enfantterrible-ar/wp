@@ -1,6 +1,5 @@
 // authors-item.js
 
-import { __ } from '@wordpress/i18n';
 import { useBlockProps, BlockMover } from '@wordpress/block-editor';
 import { TextControl, Button, Toolbar } from '@wordpress/components';
 import { useDispatch } from '@wordpress/data';
@@ -52,16 +51,8 @@ export const BlockEdit = ({ clientId, attributes, setAttributes }) => {
 		<div {...blockProps}>
 			{/* Input fields for name and URL */}
 			<div className="wp-block-enfantterrible-models-authors-item--control-wrapper">
-				<TextControl
-					label={__('Nombre', 'enfantterrible-models')}
-					value={name || ''}
-					onChange={updateField('name')}
-				/>
-				<TextControl
-					label={__('Enlace', 'enfantterrible-models')}
-					value={url || ''}
-					onChange={updateField('url')}
-				/>
+				<TextControl label="Nombre" value={name || ''} onChange={updateField('name')} />
+				<TextControl label="Enlace" value={url || ''} onChange={updateField('url')} />
 			</div>
 			{/* Inline block controls: delete and move */}
 			<Toolbar
@@ -74,7 +65,7 @@ export const BlockEdit = ({ clientId, attributes, setAttributes }) => {
 					{/* Delete the block */}
 					<Button
 						icon={trashIcon}
-						label={__('Eliminar autorx', 'enfantterrible-models')}
+						label="Eliminar autorx"
 						onClick={() => removeBlock(clientId, true)}
 						isDestructive
 					/>

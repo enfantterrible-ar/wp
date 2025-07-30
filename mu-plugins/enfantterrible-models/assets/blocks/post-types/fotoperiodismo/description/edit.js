@@ -1,4 +1,3 @@
-import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
 import { TextareaControl } from '@wordpress/components';
 
@@ -18,15 +17,15 @@ export const BlockEdit = () => {
 	return (
 		<div {...props}>
 			<div className="wp-block-enfantterrible-models-description-header">
-				<p>{__('Bajada', 'enfantterrible-models')}</p>
+				<p>Bajada</p>
 			</div>
 			<TextareaControl
-				label={__('Bajada corta', 'enfantterrible-models')}
+				label="Bajada corta"
 				value={shortDescription}
 				onChange={setShortDescription}
 			/>
 			<TextareaControl
-				label={__('Bajada larga', 'enfantterrible-models')}
+				label="Bajada larga"
 				value={longDescription}
 				onChange={setLongDescription}
 			/>
