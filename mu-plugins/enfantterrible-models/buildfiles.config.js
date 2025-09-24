@@ -1,4 +1,5 @@
 module.exports = {
-	'admin/fotoperiodismo-react-page': './assets/js/admin/fotoperiodismo-react-page.js',
+	'post-types/fotoperiodismo/admin/fotoperiodismo-admin-page':
+		'./assets/js/post-types/fotoperiodismo/admin/fotoperiodismo-admin-page.js',
 	'block-filters': './assets/js/block-filters.js',
 };

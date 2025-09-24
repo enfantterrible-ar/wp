@@ -51,13 +51,18 @@ class AdminAssets implements ModuleInterface {
 	 * @return void
 	 */
 	public function admin_scripts() {
-		wp_enqueue_script(
-			'enfantterrible_models_admin',
-			ENFANTTERRIBLE_MODELS_URL . 'dist/js/admin.js',
-			$this->get_asset_info( 'admin', 'dependencies' ),
-			$this->get_asset_info( 'admin', 'version' ),
-			true
-		);
+		$screen = get_current_screen();
+		
+		if ( $screen && 'fotoperiodismo_page_fotoperiodismo-tools-page' === $screen->id ) {
+			wp_enqueue_script(
+				'enfantterrible_models_fotoperiodismo_admin_page_script',
+				ENFANTTERRIBLE_MODELS_URL . 'dist/js/post-types/fotoperiodismo/admin/fotoperiodismo-admin-page.js',
+				$this->get_asset_info( 'post-types/fotoperiodismo/admin/fotoperiodismo-admin-page', 'dependencies' ),
+				$this->get_asset_info( 'post-types/fotoperiodismo/admin/fotoperiodismo-admin-page', 'version' ),
+				true
+			);
+		}
+
 	}
 
 	/**
@@ -66,11 +71,18 @@ class AdminAssets implements ModuleInterface {
 	 * @return void
 	 */
 	public function admin_styles() {
-		wp_enqueue_style(
-			'enfantterrible_models_admin',
-			ENFANTTERRIBLE_MODELS_URL . 'dist/css/admin-style.css',
-			[],
-			$this->get_asset_info( 'admin', 'version' ),
-		);
+		$screen = get_current_screen();
+
+		if ( $screen && 'fotoperiodismo_page_fotoperiodismo-tools-page' === $screen->id ) {
+			// This is the source of truth for the entire component's dependencies.
+			$deps = [];
+	
+			wp_enqueue_style(
+				'enfantterrible_models_fotoperiodismo_admin_page_styles',
+				ENFANTTERRIBLE_MODELS_URL . 'dist/css/post-types/fotoperiodismo/admin/fotoperiodismo-admin-page.css', // Note the corrected file name
+				$deps,
+				$this->get_asset_info( 'post-types/fotoperiodismo/admin/fotoperiodismo-admin-page', 'version' ),
+			);
+		}
 	}
 }

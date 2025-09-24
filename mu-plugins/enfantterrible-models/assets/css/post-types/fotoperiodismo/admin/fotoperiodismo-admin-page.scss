@@ -1,0 +1,116 @@
+@import "@wordpress/dataviews/build-style/style.css";
+@import "@wordpress/components/build-style/style.css";
+@import 'react-tabs/style/react-tabs.css';
+
+:root {
+	--badge-neutral-surface: #f8f9fa;
+	--badge-neutral-border: #dee2e6;
+	--badge-neutral-text: #495057;
+  
+	--badge-success-surface: #d1e7dd;
+	--badge-success-border: #a3cfbb;
+	--badge-success-text: #0f5132;
+  
+	--badge-info-surface: #cff4fc;
+	--badge-info-border: #9eeaf9;
+	--badge-info-text: #055160;
+  
+	--badge-danger-surface: #f8d7da;
+	--badge-danger-border: #f1aeb5;
+	--badge-danger-text: #842029;
+}
+
+#wpcontent {
+	padding-left: 0;
+	& #wpbody-content  {
+		padding-bottom:0;
+		min-height:100vh;
+	}
+}
+
+#wpfooter {
+	display: none;
+}
+
+#fotoperiodismo-tools-page {
+	padding: 20px;
+	background-color: #fff;
+}
+
+.react-tabs {
+	
+	& .react-tabs__tab-list {
+		margin:0;
+	}
+
+	& .react-tabs__tab {
+		margin-bottom:0;
+	}
+
+	& .react-tabs__tab-panel {
+		border-left: 1px solid #aaa;
+		border-right: 1px solid #aaa;
+		border-bottom: 1px solid #aaa;
+	}
+}
+
+.dataviews-wrapper {
+	& .dataviews-view-table thead,
+	& .dataviews-view-table tbody {
+		border-top: 2px solid #f0f0f0;
+	}
+
+	& .dataviews-view-table__row .dataviews-view-table__checkbox-column {
+		padding: 0;
+		& .dataviews-view-table__cell-content-wrapper {
+			padding: 12px 0 12px 12px;
+			justify-content: center;
+		}
+
+		&[scope="col"] div:has( input[type="checkbox"] ) {
+			justify-content: flex-end;
+		}
+
+		&[scope="col"] span:has( input[type="checkbox"] ),
+		&[scope="col"] input[type="checkbox"] {
+			margin: 0;
+		}
+	}
+
+	& .dataviews__view-actions {
+		padding-left:12px;
+	}
+}
+
+.migration-badge {
+	border-radius: 3px;
+	display: inline-block;
+	padding: 2px 6px;
+  
+	&--loading,
+	&--pending,
+	&--unknown {
+		background-color: var(--badge-neutral-surface);
+		border: 1px solid var(--badge-neutral-border);
+		color: var(--badge-neutral-text);
+	}
+  
+	&--valid {
+		background-color: var(--badge-success-surface);
+		border: 1px solid var(--badge-success-border);
+		color: var(--badge-success-text);
+	}
+  
+	&--no_legacy {
+		background-color: var(--badge-info-surface);
+		border: 1px solid var(--badge-info-border);
+		color: var(--badge-info-text);
+	}
+  
+	&--invalid,
+	&--incomplete {
+		background-color: var(--badge-danger-surface);
+		border: 1px solid var(--badge-danger-border);
+		color: var(--badge-danger-text);
+	}
+}

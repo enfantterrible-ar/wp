@@ -37,10 +37,10 @@ class AdminPage implements ModuleInterface {
 	 */
 	public function __construct() {
 		$args       = [
-			'page_title' => 'React Admin Page',
-			'menu_title' => 'React Menu',
+			'page_title' => 'Herramientas de Fotoperiodismo',
+			'menu_title' => 'Herramientas',
 			'capability' => 'manage_options',
-			'menu_slug'  => 'react-admin-page',
+			'menu_slug'  => 'fotoperiodismo-tools-page',
 			'icon'       => 'dashicons-admin-generic',
 			'position'   => 25,
 		];
@@ -110,7 +110,7 @@ class AdminPage implements ModuleInterface {
 	 */
 	public function render_admin_page() {
 		printf(
-			'<div class="wrap" id="%s"></div>',
+			'<div id="%s"></div>',
 			esc_attr( $this->args['menu_slug'] )
 		);
 	}
