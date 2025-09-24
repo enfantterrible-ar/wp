@@ -18,6 +18,7 @@ use Monolog\Logger;
 use EnfantTerrible\Models\PostTypes\Fotoperiodismo\Inc\PostType as PostTypeRegistrar;
 use EnfantTerrible\Models\PostTypes\Fotoperiodismo\Inc\Meta as MetaRegistrar;
 use EnfantTerrible\Models\PostTypes\Fotoperiodismo\Inc\Blocks as BlocksRegistrar;
+use EnfantTerrible\Models\PostTypes\Fotoperiodismo\Inc\Rest as RestController;
 use EnfantTerrible\Models\PostTypes\Fotoperiodismo\Admin\AdminPage;
 use EnfantTerrible\Models\PostTypes\Fotoperiodismo\Admin\AdminAssets;
 
@@ -69,6 +70,7 @@ class Controller implements ModuleInterface {
 		$this->register_meta();
 		$this->register_admin_pages();
 		$this->register_blocks();
+		$this->register_rest();
 	}
 
 	/**
@@ -121,5 +123,10 @@ class Controller implements ModuleInterface {
 	public function register_blocks() {
 		$blocks = new BlocksRegistrar();
 		$blocks->register();
+	}
+
+	public function register_rest() {
+		$rest = new RestController();
+		$rest->register();
 	}
 }
