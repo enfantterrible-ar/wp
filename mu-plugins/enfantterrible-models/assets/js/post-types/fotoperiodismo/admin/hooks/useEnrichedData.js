@@ -63,10 +63,12 @@ function useEnrichedData(view) {
 	const base = posts.map((post) => ({
 		id: post.id,
 		title: post.title,
+		content: post.content,
 		date: post.date,
 		status: post.status,
 		meta: post.meta,
 		link: post.link,
+		type: post.type,
 	}));
 
 	// Step 3: Async enrich base with migration_status using incremental enrichment
@@ -85,7 +87,7 @@ function useEnrichedData(view) {
 				return;
 			}
 
-			const migration_status = await getMigrationInfo(meta);
+			const migration_status = await getMigrationInfo(meta, item.content, item.type);
 
 			if (!cancelledRef.current) {
 				setEnrichedMap((prev) => ({

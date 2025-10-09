@@ -1,5 +1,6 @@
 import { resolveSelect } from '@wordpress/data';
 import { nanoid } from 'nanoid';
+import { normalizeUrl } from './shared';
 
 /**
  * Transforms a single image data into the expected gallery image shape.
@@ -31,11 +32,13 @@ export function transformImageData(imageData, id) {
  * Throws an error with context if the shape is invalid.
  */
 export function transformAuthorsMeta(authors = []) {
-	const transformed = authors.map((author) => ({
-		id: nanoid(),
-		name: typeof author.nombre === 'string' ? author.nombre : '',
-		url: typeof author.link === 'string' ? author.link : '',
-	}));
+	const transformed = authors
+		.filter((author) => (author.nombre || author.link || '').trim())
+		.map((author) => ({
+			id: nanoid(),
+			name: typeof author.nombre === 'string' ? author.nombre : '',
+			url: typeof author.link === 'string' ? normalizeUrl(author.link) : '',
+		}));
 
 	return transformed;
 }
@@ -46,7 +49,7 @@ export function transformAuthorsMeta(authors = []) {
  */
 export async function transformGalleryMeta(imagesIds = []) {
 	const images = await Promise.all(
-		imagesIds.map(async (id) => {
+		imagesIds.filter(Boolean).map(async (id) => {
 			try {
 				const imageData = await resolveSelect('core').getMedia(id);
 				return transformImageData(imageData, id);
@@ -63,7 +66,7 @@ export async function transformGalleryMeta(imagesIds = []) {
 		layouts: { lg: [], md: [], sm: [], xs: [], xxs: [] },
 		lastUpdated: Date.now(),
 	};
-
+	console.log(gallery);
 	return gallery;
 }
 

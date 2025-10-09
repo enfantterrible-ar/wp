@@ -7,25 +7,7 @@
  * according to the defined REST API schema.
  */
 
-/**
- * Validates if a string is a well-formed HTTPS URL.
- * Optionally allows empty strings.
- *
- * @param {*} value - The value to validate as a URL.
- * @param {boolean} [allowEmpty=false] - If true, empty strings are considered valid.
- * @returns {boolean} True if valid HTTPS URL or allowed empty, false otherwise.
- */
-function isUri(value, allowEmpty = false) {
-	if (allowEmpty && value === '') return true;
-	if (typeof value !== 'string') return false;
-
-	try {
-		const url = new URL(value);
-		return url.protocol === 'https:';
-	} catch {
-		return false;
-	}
-}
+import { isUri } from './shared';
 
 function validateImageSize(size) {
 	if (typeof size !== 'object' || size === null) return false;

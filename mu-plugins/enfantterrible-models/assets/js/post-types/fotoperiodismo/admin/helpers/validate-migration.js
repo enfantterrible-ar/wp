@@ -1,4 +1,3 @@
-// helpers/validate-migration.js
 /**
  * Migration validation utilities
  * Works alongside existing validate.js to check if migration was completed correctly
@@ -6,7 +5,8 @@
  */
 
 import { validateObjectShape } from './validate';
-import { transformAuthorsMeta, transformGalleryMeta } from './transforms';
+import { normalizeUrl } from './shared';
+import { getTemplateContent } from './templates';
 
 /**
  * Simple migration status types
@@ -26,7 +26,13 @@ export const MIGRATION_MESSAGES = {
 };
 
 /**
- * Utility to compare arrays ignoring order
+ * Checks if two arrays are equal.
+ *
+ * Equality is determined by sorting the arrays and checking if every element at the same index is equal.
+ *
+ * @param {Array} arr1 - First array to compare
+ * @param {Array} arr2 - Second array to compare
+ * @returns {boolean} True if the arrays are equal, false otherwise
  */
 function arraysEqual(arr1, arr2) {
 	if (!Array.isArray(arr1) || !Array.isArray(arr2)) return false;
@@ -39,8 +45,13 @@ function arraysEqual(arr1, arr2) {
 }
 
 /**
- * Check if post has legacy data that needs migration
- * Safely handles undefined/null meta
+ * Checks if a given meta object has any legacy data that can be migrated.
+ *
+ * Legacy data is defined as either _crb_enfantterrible_fotoperiodismo_gallery or
+ * _crb_enfantterrible_fotoperiodismo_authors array properties.
+ *
+ * @param {object} meta - Meta object to check for legacy data
+ * @returns {boolean} True if meta object has legacy data, false otherwise
  */
 function hasLegacyData(meta) {
 	if (!meta || typeof meta !== 'object') {
@@ -57,7 +68,21 @@ function hasLegacyData(meta) {
 }
 
 /**
- * Compare gallery data with what transforms would produce
+ * Extracts image IDs from legacy gallery data.
+ *
+ * @param {Array} legacyGallery - Legacy gallery data containing image objects or IDs.
+ * @returns {Array<number>} An array of image IDs parsed from the legacy data.
+ */
+function getGalleryIdsFromLegacy(legacyGallery) {
+	return legacyGallery.map((item) => parseInt(item.id || item, 10)).filter(Boolean);
+}
+
+/**
+ * Validates that the gallery data has been migrated correctly
+ * by comparing current data with what transforms would produce from legacy data.
+ *
+ * @param {object} meta - The post meta object
+ * @returns {boolean} True if the gallery data has been migrated correctly, false otherwise
  */
 async function validateGalleryMigration(meta) {
 	const legacyGallery = meta._crb_enfantterrible_fotoperiodismo_gallery || [];
@@ -73,19 +98,38 @@ async function validateGalleryMigration(meta) {
 		return false;
 	}
 
-	try {
-		const expectedGallery = await transformGalleryMeta(legacyGallery);
-		const currentIds = currentGallery.images.map((img) => img.id);
-		const expectedIds = expectedGallery.images.map((img) => img.id);
+	const legacyIds = getGalleryIdsFromLegacy(legacyGallery);
+	const currentIds = currentGallery.images.map((img) => img.id);
 
-		return arraysEqual(currentIds, expectedIds);
-	} catch (error) {
-		return false;
-	}
+	return arraysEqual(currentIds, legacyIds);
+}
+
+export function getAuthorSignatures(authors) {
+	return authors.map((a) => {
+		const name = (a.name || a.nombre || '').trim().toLowerCase();
+		const url = normalizeUrl(a.url || a.link || '');
+		return `${name}|${url}`;
+	});
+}
+
+export function validateAuthors(legacyAuthors, currentAuthors) {
+	const legacySignatures = getAuthorSignatures(legacyAuthors).sort();
+	const currentSignatures = getAuthorSignatures(currentAuthors).sort();
+	const isValid = arraysEqual(legacySignatures, currentSignatures);
+
+	console.log('Validating authors migration:', { legacySignatures, currentSignatures });
+
+	return {
+		legacySignatures,
+		currentSignatures,
+		status: isValid,
+	};
 }
 
 /**
- * Compare authors data with what transforms would produce
+ * Validates that the authors have been migrated correctly
+ * @param {object} meta - The post meta object
+ * @returns {boolean} True if the authors have been migrated correctly, false otherwise
  */
 function validateAuthorsMigration(meta) {
 	const legacyAuthors = meta._crb_enfantterrible_fotoperiodismo_authors || [];
@@ -96,28 +140,20 @@ function validateAuthorsMigration(meta) {
 		return true;
 	}
 
-	// Should have matching author count
-	if (!Array.isArray(currentAuthors) || currentAuthors.length !== legacyAuthors.length) {
-		return false;
-	}
+	const { status } = validateAuthors(
+		legacyAuthors.filter((a) => (a.nombre || a.link || '').trim()), // drop empties
+		currentAuthors,
+	);
 
-	try {
-		const expectedAuthors = transformAuthorsMeta(legacyAuthors);
+	console.log('Validating authors migration:', { legacyAuthors, currentAuthors });
 
-		// Compare author names (basic check)
-		const currentNames = currentAuthors.map((a) => (a.name || '').trim().toLowerCase()).sort();
-		const expectedNames = expectedAuthors
-			.map((a) => (a.name || '').trim().toLowerCase())
-			.sort();
-
-		return arraysEqual(currentNames, expectedNames);
-	} catch (error) {
-		return false;
-	}
+	return status;
 }
 
 /**
- * Compare descriptions with legacy data
+ * Validates that the descriptions (short and long) have been migrated correctly
+ * @param {object} meta - The post meta object
+ * @returns {boolean} True if the descriptions have been migrated correctly, false otherwise
  */
 function validateDescriptionsMigration(meta) {
 	const legacyShort = meta._crb_enfantterrible_fotoperiodismo_desc_short || '';
@@ -130,21 +166,33 @@ function validateDescriptionsMigration(meta) {
 }
 
 /**
- * Main migration validation function
- * Checks if migration was completed correctly by comparing current data
- * with what transforms would produce from legacy data
- *
- * Uses existing validateObjectShape() for structure validation
+ * Validates that a post's meta data has been migrated correctly.
+ * Checks that the data exists, matches the expected shape, and has been transformed
+ * correctly from legacy data.
+ * @param {object} meta - The post's meta data
+ * @returns {Promise<object>} A promise that resolves to an object with the following properties:
+ * - status: The migration status, one of the following:
+ *   - MIGRATION_STATUS.NO_LEGACY: No legacy data to migrate
+ *   - MIGRATION_STATUS.INCOMPLETE: New structure missing or malformed
+ *   - MIGRATION_STATUS.VALID: Migration complete and data matches expected transforms
+ *   - MIGRATION_STATUS.INVALID: Migration attempted but data doesn't match
+ * - needsMigration: A boolean indicating whether either the content or meta needs migration
  */
-export async function validateMigration(meta) {
+async function validateMetaMigration(meta) {
 	// No legacy data = no migration needed
 	if (!hasLegacyData(meta)) {
-		return MIGRATION_STATUS.NO_LEGACY;
+		return {
+			status: MIGRATION_STATUS.NO_LEGACY,
+			needsMigration: false,
+		};
 	}
 
 	// Use existing shape validation first
 	if (!validateObjectShape(meta)) {
-		return MIGRATION_STATUS.INCOMPLETE;
+		return {
+			status: MIGRATION_STATUS.INCOMPLETE,
+			needsMigration: true,
+		};
 	}
 
 	try {
@@ -155,81 +203,104 @@ export async function validateMigration(meta) {
 			validateDescriptionsMigration(meta),
 		]);
 
-		if (galleryValid && authorsValid && descriptionsValid) {
-			return MIGRATION_STATUS.VALID;
-		}
-		return MIGRATION_STATUS.INVALID;
+		const allValid = galleryValid && authorsValid && descriptionsValid;
+
+		return {
+			status: allValid ? MIGRATION_STATUS.VALID : MIGRATION_STATUS.INVALID,
+			needsMigration: !allValid,
+		};
 	} catch (error) {
-		return MIGRATION_STATUS.INVALID;
+		return {
+			status: MIGRATION_STATUS.INVALID,
+			needsMigration: true,
+		};
 	}
 }
 
 /**
- * Simple boolean check for UI - integrates with your existing logic
- * Returns true if migration is valid or not needed
+ * Checks if content needs migration by comparing with template
+ *
+ * @param {object} currentContent - The content object with .raw property
+ * @param {string} templateContent - The template content to compare against
+ * @returns {boolean} True if content needs migration
  */
-export async function isMigrationComplete(meta) {
-	const status = await validateMigration(meta);
-	return status === MIGRATION_STATUS.VALID || status === MIGRATION_STATUS.NO_LEGACY;
+function validateContentMigration(currentContent, templateContent) {
+	if (!templateContent) return false;
+	const current = (currentContent?.raw || '').trim();
+	const template = templateContent.trim();
+	return current !== template;
 }
 
 /**
- * Synchronous fallback that just uses your existing validateObjectShape
- * Use this in the main data mapping, then enhance async if needed
- * Handles cases where meta might be undefined or posts are still loading
+ * Validates the migration status of a post by checking both meta and content.
+ * @param {object} meta - The post's meta data
+ * @param {object} content - The post's content object with .raw property
+ * @param {string} postType - The post type slug
+ * @returns {Promise<object>} A promise that resolves to an object with the following properties:
+ * - status: The migration status (one of MIGRATION_STATUS.*)
+ * - metaNeedsMigration: A boolean indicating whether the meta needs migration
+ * - contentNeedsMigration: A boolean indicating whether the content needs migration
+ * - needsMigration: A boolean indicating whether either the content or meta needs migration
  */
-export function getMigrationStatusSync(meta) {
-	// Handle undefined/null meta (posts still loading, context issues, etc.)
-	if (!meta || typeof meta !== 'object') {
-		return { migrated: false, status: 'loading', message: 'Loading...' };
+export async function validateMigration(meta, content, postType) {
+	// Validate meta
+	const metaResult = await validateMetaMigration(meta);
+	let { status } = metaResult;
+
+	// Check content migration
+	const templateContent = await getTemplateContent(postType);
+	const contentNeedsMigration = validateContentMigration(content, templateContent);
+
+	// If content needs migration, adjust status
+	if (
+		contentNeedsMigration &&
+		(status === MIGRATION_STATUS.VALID || status === MIGRATION_STATUS.NO_LEGACY)
+	) {
+		status = MIGRATION_STATUS.INCOMPLETE;
 	}
 
-	// Quick checks that don't require async operations
-	if (!hasLegacyData(meta)) {
-		return { migrated: true, status: 'no_legacy', message: 'No migration needed' };
-	}
-
-	if (!validateObjectShape(meta)) {
-		return { migrated: false, status: 'incomplete', message: 'Not migrated' };
-	}
-
-	// For posts with both legacy and new structure, we need async validation
-	// Return a "pending" state that can be enhanced later
-	return { migrated: true, status: 'pending', message: 'Checking...' };
-}
-
-/**
- * Detailed migration info for debugging
- */
-export async function getMigrationInfo(meta) {
-	const status = await validateMigration(meta);
-	const message = MIGRATION_MESSAGES[status];
-	const info = {
+	return {
 		status,
-		message,
-		hasLegacyData: hasLegacyData(meta),
-		hasValidStructure: validateObjectShape(meta),
+		metaNeedsMigration: metaResult.needsMigration,
+		contentNeedsMigration,
+		needsMigration: metaResult.needsMigration || contentNeedsMigration,
+	};
+}
+
+/**
+ * Checks if a post's migration is complete by validating both meta and content.
+ * @param {object} meta - The post's meta data
+ * @param {object} content - The post's content object with .raw property
+ * @param {string} postType - The post type slug
+ * @returns {Promise<boolean>} A promise that resolves to a boolean indicating whether the migration is complete
+ */
+export async function isMigrationComplete(meta, content, postType) {
+	const result = await validateMigration(meta, content, postType);
+	return !result.needsMigration;
+}
+
+/**
+ * Retrieves information about the migration status of a post
+ * @param {object} meta - The post meta object
+ * @param {object} content - The post content object
+ * @param {string} postType - The post type slug
+ * @returns {Promise<object>} A promise that resolves to an object with the following properties:
+ * - status: The migration status (one of MIGRATION_STATUS.*)
+ * - message: A human-readable message describing the migration status
+ * - needsContentMigration: A boolean indicating whether the content needs migration
+ * - needsMetaMigration: A boolean indicating whether the meta needs migration
+ * - needsMigration: A boolean indicating whether either the content or meta needs migration
+ * - timestamp: A timestamp indicating when the migration information was retrieved
+ */
+export async function getMigrationInfo(meta, content, postType) {
+	const result = await validateMigration(meta, content, postType);
+
+	return {
+		status: result.status,
+		message: MIGRATION_MESSAGES[result.status],
+		needsContentMigration: result.contentNeedsMigration,
+		needsMetaMigration: result.metaNeedsMigration,
+		needsMigration: result.needsMigration,
 		timestamp: new Date().toISOString(),
 	};
-
-	// Add detailed breakdown if needed
-	if (status === MIGRATION_STATUS.INVALID) {
-		try {
-			const [galleryValid, authorsValid, descriptionsValid] = await Promise.all([
-				validateGalleryMigration(meta),
-				validateAuthorsMigration(meta),
-				validateDescriptionsMigration(meta),
-			]);
-
-			info.details = {
-				gallery: galleryValid,
-				authors: authorsValid,
-				descriptions: descriptionsValid,
-			};
-		} catch (error) {
-			info.error = error.message;
-		}
-	}
-
-	return info;
 }
