@@ -43,6 +43,48 @@ class Controller implements ModuleInterface {
 	private string $model_type = 'post';
 
 	/**
+	 * Post type registrar instance.
+	 *
+	 * @var PostTypeRegistrar|null
+	 */
+	private ?PostTypeRegistrar $post_type = null;
+
+	/**
+	 * Blocks registrar instance.
+	 *
+	 * @var BlocksRegistrar|null
+	 */
+	private ?BlocksRegistrar $blocks = null;
+
+	/**
+	 * Meta registrar instance.
+	 *
+	 * @var MetaRegistrar|null
+	 */
+	private ?MetaRegistrar $meta = null;
+
+	/**
+	 * REST controller instance.
+	 *
+	 * @var RestController|null
+	 */
+	private ?RestController $rest = null;
+
+	/**
+	 * Admin page instance.
+	 *
+	 * @var AdminPage|null
+	 */
+	private ?AdminPage $admin_page = null;
+
+	/**
+	 * Admin assets instance.
+	 *
+	 * @var AdminAssets|null
+	 */
+	private ?AdminAssets $admin_assets = null;
+
+	/**
 	 * Get the post type name.
 	 *
 	 * @return string
@@ -61,72 +103,68 @@ class Controller implements ModuleInterface {
 	}
 
 	/**
-	 * Register the post type.
+	 * Inits all the required components.
+	 *
+	 * This method initializes all the required components for the class,
+	 * such as the blocks registrar, post type registrar, meta registrar,
+	 * rest controller, admin page, and admin assets.
+	 *
+	 * @return void
+	 */
+	private function init() {
+		$this->post_type    = new PostTypeRegistrar();
+		$this->meta         = new MetaRegistrar();
+		$this->blocks       = new BlocksRegistrar();
+		$this->rest         = new RestController();
+		$this->admin_page   = new AdminPage();
+		$this->admin_assets = new AdminAssets();
+	}
+
+
+	/**
+	 * Sets up custom logic for the model registration.
+	 *
+	 * This method sets up any custom logic required before registering the model,
+	 * such as setting up the post type template.
+	 *
+	 * @return void
+	 */
+	private function setup() {
+		$post_type = $this->post_type;
+		$blocks    = $this->blocks;
+
+		$blocks_template = $blocks->get_model_blocks_template();
+		if ( ! empty( $blocks_template ) ) {
+			$post_type->set_model_options( $blocks_template );
+		}
+	}
+
+	/**
+	 * Registers all the required components for the post type.
+	 *
+	 * This method registers all the required components for the post type,
+	 * including the post type registrar, meta registrar, admin page,
+	 * admin assets, blocks registrar, and rest controller.
+	 *
+	 * @return void
+	 */
+	private function register_components() {
+		$this->post_type->register();
+		$this->meta->register();
+		$this->blocks->register();
+		$this->rest->register();
+		$this->admin_page->register();
+		$this->admin_assets->register();
+	}
+
+	/**
+	 * Register the model.
 	 *
 	 * @return void
 	 */
 	public function register() {
-		$this->register_post_type();
-		$this->register_meta();
-		$this->register_admin_pages();
-		$this->register_blocks();
-		$this->register_rest();
-	}
-
-	/**
-	 * Registers the post type.
-	 *
-	 * This method registers the post type using the PostTypeRegistrar.
-	 *
-	 * @return void
-	 */
-	public function register_post_type() {
-		$post_type = new PostTypeRegistrar();
-		$post_type->register();
-	}
-
-	/**
-	 * Register the custom meta fields for the post type.
-	 *
-	 * This method registers all custom meta fields for the post type.
-	 *
-	 * @return void
-	 */
-	public function register_meta() {
-		$meta = new MetaRegistrar();
-		$meta->register();
-	}
-
-	/**
-	 * Register the admin pages for the post type.
-	 *
-	 * This will register the admin page and enqueue the necessary assets.
-	 *
-	 * @return void
-	 */
-	public function register_admin_pages() {
-
-		$admin_page   = new AdminPage();
-		$admin_assets = new AdminAssets();
-
-		$admin_page->register();
-		$admin_assets->register();
-	}
-
-	/**
-	 * Registers all blocks in the blocks directory.
-	 *
-	 * This method creates an instance of the BlocksRegistrar class and calls its register() method.
-	 *
-	 * @return void
-	 */
-	public function register_blocks() {
-		$blocks = new BlocksRegistrar();
-		$blocks->register();
-	}
-
-	public function register_rest() {
-		$rest = new RestController();
-		$rest->register();
+		$this->init();
+		$this->setup();
+		$this->register_components();
 	}
 }

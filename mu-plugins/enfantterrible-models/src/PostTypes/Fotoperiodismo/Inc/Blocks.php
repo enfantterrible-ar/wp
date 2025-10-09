@@ -95,7 +95,6 @@ class Blocks implements ModuleInterface {
 			fallback_version: ENFANTTERRIBLE_MODELS_VERSION
 		);
 		add_action( 'init', [ $this, 'register_model_blocks' ] );
-		add_action( 'init', [ $this, 'set_model_blocks_template' ] );
 		add_action( 'init', [ $this, 'set_model_allowed_blocks' ] );
 	}
 
@@ -159,29 +158,26 @@ class Blocks implements ModuleInterface {
 	 * The template is built by iterating over the model's blocks, while excluding
 	 * specific blocks from the template.
 	 *
-	 * @return void
+	 * @return $args The modified arguments including the block template and lock settings.
 	 */
-	public function set_model_blocks_template(): void {
-		$post_type_object = get_post_type_object( $this->model_name );
-		$blocks_names     = array_keys( $this->blocks );
-
-		// Blocks to exclude, stored in an array
+	public function get_model_blocks_template(): array {
+		$args            = array();
+		$blocks_names    = array_keys( $this->blocks );
 		$excluded_blocks = [
 			'enfantterrible-models/authors-item',
 		];
 
-		// Create the template array
 		$template_blocks = array();
 		foreach ( $blocks_names as $block_name ) {
-			// Check if the current block name is in the excluded array
-			if ( ! in_array( $block_name, $excluded_blocks ) ) {
-				// Add the block to the template if it's not excluded
+			if ( ! in_array( $block_name, $excluded_blocks, true ) ) {
 				$template_blocks[] = array( $block_name, array() );
 			}
 		}
 
-		$post_type_object->template      = $template_blocks;
-		$post_type_object->template_lock = 'all'; // Optional
+		$args['template']      = $template_blocks;
+		$args['template_lock'] = 'all';
+
+		return $args;
 	}
 
 

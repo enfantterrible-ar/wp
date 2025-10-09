@@ -36,6 +36,13 @@ class PostType extends AbstractPostType {
 	private string $model_type;
 
 	/**
+	 * The model options.
+	 *
+	 * @var array
+	 */
+	private array $model_options = [];
+
+	/**
 	 * The logger instance.
 	 *
 	 * @var Logger
@@ -133,6 +140,46 @@ class PostType extends AbstractPostType {
 		];
 
 		return $supports;
+	}
+
+	/**
+	 * Merge the parent options with the model options.
+	 *
+	 * @return array<string, mixed> The merged options.
+	 */
+	public function get_options(): array {
+		$options = parent::get_options();
+		$options = array_merge(
+			$options,
+			$this->model_options
+		);
+		return $options;
+	}
+
+	/**
+	 * Merge the given model options with the default options.
+	 *
+	 * The method merges the given model options with the default options
+	 * and returns the merged array.
+	 *
+	 * @param array $args The model options to merge.
+	 *
+	 * @return array The merged model options.
+	 */
+	public function set_model_options( array $args ): array {
+		if ( ! isset( $args['template'] ) ) {
+			$this->logger->info( 'Called set_model_options() without template, using default options.' );
+			return $args;
+		}
+
+		if ( ! isset( $args['template_lock'] ) ) {
+			$this->logger->info( 'Called set_model_options() without template_lock, using default options.' );
+			return $args;
+		}
+
+		$this->model_options = array_merge( $this->model_options, $args );
+
+		return $this->model_options;
 	}
 
 	/**
